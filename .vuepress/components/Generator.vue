@@ -432,6 +432,30 @@
                         this.transactionStarted = true;
                         this.trxHash = tokenContract.transactionHash;
                         this.trxLink = this.network.current.etherscanLink + '/tx/' + this.trxHash;
+                        if(this.isMobile()) {
+                          const that = this;
+                          var interval;
+                          var getTransactionReceipt = function() {
+                            window.web3.eth.getTransactionReceipt(tokenContract.transactionHash, function(e, receipt){
+                              if(receipt && receipt.blockHash) {
+                                if(interval) {
+                                  clearInterval(interval);
+                                }
+                                if(!that.token.address) {
+                                  that.token.address = receipt.contractAddress;
+                                  that.token.link = that.network.current.etherscanLink + '/token/' + that.token.address;
+                                  that.$forceUpdate();
+                                  that.makeToast(
+                                      'Well done! | 太好了！',
+                                      `Your tasdoken has been deployed at | 您的通证部署在 ${that.token.address}`,
+                                      'success | 成功',
+                                  );
+                                }
+                              }
+                            });
+                          }
+                          interval = setInterval(getTransactionReceipt, 3000)
+                        }
                       } else {
                         this.token.address = tokenContract.address;
                         this.token.link = this.network.current.etherscanLink + '/token/' + this.token.address;
@@ -466,6 +490,7 @@
           );
         });
       },
+
       updateInitialBalance () {
         this.token.initialBalance = this.finishMinting ? this.token.cap : this.token.initialBalance;
       },
