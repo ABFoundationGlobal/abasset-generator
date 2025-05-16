@@ -1,6 +1,6 @@
 <template>
-    <b-row>
-        <!--
+  <b-row>
+    <!--
         <b-col lg="10" offset-lg="1" class="mt-4 p-0">
             <b-link href="https://www.friendsfingers.com/?utm_campaign=github&utm_source=erc20-generator"
                     target="_blank">
@@ -8,22 +8,27 @@
             </b-link>
         </b-col>
         -->
-        <b-col lg="10" offset-lg="1" class="text-center text-dark p-0">
-            <ul class="list-inline mt-2">
-                <li class="list-inline-item">
-                    <small>created by
-                        <b-link class="text-dark" href="https://github.com/newswap/newasset-generator" target="_blank">
-                            @newswap
-                        </b-link>
-                    </small>
-                </li>
-            </ul>
-        </b-col>
-    </b-row>
+    <b-col lg="10" offset-lg="1" class="text-center text-white p-0">
+      <ul class="list-inline mt-2">
+        <li class="list-inline-item">
+          <small
+            >created by
+            <b-link
+              class="text-white"
+              href="https://github.com/ABFoundationGlobal"
+              target="_blank"
+            >
+              @ABFoundationGlobal
+            </b-link>
+          </small>
+        </li>
+      </ul>
+    </b-col>
+  </b-row>
 </template>
 
 <script>
-  export default {
-    name: 'Footer',
-  };
+export default {
+  name: "Footer",
+};
 </script>

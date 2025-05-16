@@ -3,3 +3,35 @@
 
 @import "layout";
 @import "elements";
+
+.navbar {
+  height: 56px;
+  background-color: #0f0f0f;
+}
+
+.jumbotron {
+  background: radial-gradient(
+    74% 49.08% at 53.73% 95.67%,
+    #162146 0%,
+    #1a1a1a 100%
+  );
+}
+
+.alert-box {
+  background-color: #15326a;
+  border-color: #15326a;
+  border-radius: 4px;
+}
+
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  background-color: #232325;
+
+  .card-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+  }
+
+  .d-block {
+    color: var(--blue);
+  }
+}
