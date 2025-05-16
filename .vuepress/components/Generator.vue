@@ -38,20 +38,37 @@
       <b-col lg="10" offset-lg="1" class="mb-3 p-0">
         <b-card v-if="!loading" bg-variant="transparent" border-variant="0">
           <b-alert show class="alert-box text-white">
-            NOTE: to use this app we suggest to install
+            NOTE: For ABCore's mainnet and testnet, it is recommended to use
             <a
               href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"
               target="_blank"
               class="text-warning"
               >MetaMask</a
             >
-            extension on Firefox. Use any other wallet at your own risk. <br />
-            提示：建议<a
+            extension to use this app to issue tokens. For ABIoT's mainnet and
+            testnet, we suggest to install
+            <a
+              href="https://addons.mozilla.org/firefox/addon/newmask/"
+              target="_blank"
+              class="text-warning"
+              >NewMask</a
+            >
+            extension on Firefox, use any other wallet at your own risk.
+            <br />
+            提示：针对ABCore的主网和测试网，建议使用<a
               href="https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn"
               target="_blank"
               class="text-warning"
               >MetaMask</a
             >插件钱包来使用此App发行Token。
+            针对ABIoT的主网和测试网，建议安装Firefox浏览器和
+            <a
+              href="https://addons.mozilla.org/firefox/addon/newmask/"
+              target="_blank"
+              class="text-warning"
+              >NewMask</a
+            >
+            插件钱包来使用此App发行Token。
           </b-alert>
 
           <b-card
@@ -276,7 +293,7 @@
                           </b-form-select>
                         </b-form-group>
 
-                        <!-- <b-alert show variant="warning" v-if="currentNetwork !== 'NewChainMainNet'"> -->
+                        <!-- <b-alert show variant="warning" v-if="currentNetwork !== 'ABIoTMainNet'"> -->
                         <b-alert
                           show
                           variant="primary"

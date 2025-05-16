@@ -1,8 +1,8 @@
-import config from '../config';
-import TokenArtifact from '../abi/BaseToken.json';
+import config from "../config";
+import TokenArtifact from "../abi/BaseToken.json";
 
 export default {
-  data () {
+  data() {
     return {
       legacy: false,
       web3: null,
@@ -15,35 +15,35 @@ export default {
         default: config.defaultNetwork,
         current: null,
         map: {
-          1007: 'NewChainTestNet',
-          1012: 'NewChainMainNet',
+          1007: "ABIoTTestNet",
+          1012: "ABIoTMainNet",
           26888: "ABCoreTestNet",
-          36888: "ABCoreMainNet"
+          36888: "ABCoreMainNet",
         },
         list: {
           ABCoreTestNet: {
-            web3Provider: 'https://rpc.core.testnet.ab.org',
-            etherscanLink: 'https://explorer.core.testnet.ab.org/',
-            id: '26888',
-            name: 'ABCoreTestNet',
+            web3Provider: "https://rpc.core.testnet.ab.org",
+            etherscanLink: "https://explorer.core.testnet.ab.org/",
+            id: "26888",
+            name: "ABCoreTestNet",
           },
           ABCoreMainNet: {
-            web3Provider: 'https://rpc1.core.ab.org',
-            etherscanLink: 'https://explorer.core.ab.org/',
-            id: '36888',
-            name: 'ABCoreMainNet',
+            web3Provider: "https://rpc1.core.ab.org",
+            etherscanLink: "https://explorer.core.ab.org/",
+            id: "36888",
+            name: "ABCoreMainNet",
           },
-          NewChainTestNet: {
-            web3Provider: 'https://rpc6.newchain.cloud.diynova.com',
-            etherscanLink: 'https://explorer.testnet.newtonproject.org',
-            id: '1007',
-            name: 'NewChainTestNet',
+          ABIoTTestNet: {
+            web3Provider: "https://rpc1.newchain.newtonproject.org",
+            etherscanLink: "https://explorer.testnet.ab.org/",
+            id: "1007",
+            name: "ABIoTTestNet",
           },
-          NewChainMainNet: {
-            web3Provider: 'https://cn.rpc.mainnet.diynova.com',
-            etherscanLink: 'https://explorer.newtonproject.org',
-            id: '1012',
-            name: 'NewChainMainNet',
+          ABIoTMainNet: {
+            web3Provider: "https://global.rpc.iot.ab.org",
+            etherscanLink: "https://explorer.ab.org/",
+            id: "1012",
+            name: "ABIoTMainNet",
           },
         },
       },
@@ -53,20 +53,27 @@ export default {
     };
   },
   methods: {
-    initWeb3 (network, checkWeb3) {
-      if (!this.network.list.hasOwnProperty(network)) { // eslint-disable-line no-prototype-builtins
+    initWeb3(network, checkWeb3) {
+      if (!this.network.list.hasOwnProperty(network)) {
+        // eslint-disable-line no-prototype-builtins
         throw new Error(
-          `Failed initializing network ${network}. Allowed values are ${Object.keys(this.network.list)}.`,
+          `Failed initializing network ${network}. Allowed values are ${Object.keys(
+            this.network.list
+          )}.`
         );
       }
 
       return new Promise((resolve) => {
-        if (checkWeb3 && (typeof window.ethereum !== 'undefined' || typeof window.web3 !== 'undefined')) {
+        if (
+          checkWeb3 &&
+          (typeof window.ethereum !== "undefined" ||
+            typeof window.web3 !== "undefined")
+        ) {
           if (window.ethereum) {
-            console.log('injected web3'); // eslint-disable-line no-console
+            console.log("injected web3"); // eslint-disable-line no-console
             this.web3Provider = window.ethereum;
           } else {
-            console.log('injected web3 (legacy)'); // eslint-disable-line no-console
+            console.log("injected web3 (legacy)"); // eslint-disable-line no-console
             this.web3Provider = window.web3.currentProvider;
             this.legacy = true;
           }
@@ -85,64 +92,70 @@ export default {
             resolve();
           });
         } else {
-          console.log('provided web3'); // eslint-disable-line no-console
+          console.log("provided web3"); // eslint-disable-line no-console
           this.network.current = this.network.list[network];
-          this.web3Provider = new Web3.providers.HttpProvider(this.network.list[network].web3Provider);
+          this.web3Provider = new Web3.providers.HttpProvider(
+            this.network.list[network].web3Provider
+          );
           this.web3 = new Web3(this.web3Provider);
 
           resolve();
         }
       });
     },
-    async switchNetwork () {
+    async switchNetwork() {
       try {
         await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: `0x${Number(this.network.current.id).toString(16)}` }] // 转换为十六进制
+          method: "wallet_switchEthereumChain",
+          params: [
+            { chainId: `0x${Number(this.network.current.id).toString(16)}` },
+          ], // 转换为十六进制
         });
         // await this.initWeb3(this.currentNetwork, true);
         console.log(`成功切换到网络，chainId: ${this.network.current.id}`);
       } catch (switchError) {
-          // 错误码 4902 表示网络未添加
-          if (switchError.code === 4902) {
-              try {
-                  // 可选：自动添加网络（需要提供完整网络信息）
-                  await window.ethereum.request({
-                      method: 'wallet_addEthereumChain',
-                      params: [{
-                          chainId: `0x${Number(this.network.current.id).toString(16)}`,
-                          chainName: this.network.current.name,
-                          rpcUrls: [this.network.current.web3Provider],
-                          nativeCurrency: {
-                              name: 'AB',
-                              symbol: 'AB',
-                              decimals: 18
-                          },
-                          blockExplorerUrls: [this.network.current.etherscanLink]
-                      }]
-                  });
-                  // await this.initWeb3(this.currentNetwork, true);
-              } catch (addError) {
-                  console.error("添加网络失败:", addError);
-                  // this.makeToast(
-                  //   'Warning',
-                  //   `Your Wallet in on the wrong network. Please switch on ${this.network.current.name} and try again! | 您的钱包处于错误的网络，请切换到${this.network.current.name}并重试。`,
-                  //   'warning',
-                  // );
-                  return;
-              }
-          } else {
-              console.error("切换网络失败:", switchError);
-              // this.makeToast(
-              //   'Warning',
-              //   `Your Wallet in on the wrong network. Please switch on ${this.network.current.name} and try again! | 您的钱包处于错误的网络，请切换到${this.network.current.name}并重试。`,
-              //   'warning',
-              // );
-              return;
+        // 错误码 4902 表示网络未添加
+        if (switchError.code === 4902) {
+          try {
+            // 可选：自动添加网络（需要提供完整网络信息）
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainId: `0x${Number(this.network.current.id).toString(16)}`,
+                  chainName: this.network.current.name,
+                  rpcUrls: [this.network.current.web3Provider],
+                  nativeCurrency: {
+                    name: "AB",
+                    symbol: "AB",
+                    decimals: 18,
+                  },
+                  blockExplorerUrls: [this.network.current.etherscanLink],
+                },
+              ],
+            });
+            // await this.initWeb3(this.currentNetwork, true);
+          } catch (addError) {
+            console.error("添加网络失败:", addError);
+            // this.makeToast(
+            //   'Warning',
+            //   `Your Wallet in on the wrong network. Please switch on ${this.network.current.name} and try again! | 您的钱包处于错误的网络，请切换到${this.network.current.name}并重试。`,
+            //   'warning',
+            // );
+            return;
           }
+        } else {
+          console.error("切换网络失败:", switchError);
+          // this.makeToast(
+          //   'Warning',
+          //   `Your Wallet in on the wrong network. Please switch on ${this.network.current.name} and try again! | 您的钱包处于错误的网络，请切换到${this.network.current.name}并重试。`,
+          //   'warning',
+          // );
+          return;
+        }
       }
     },
-    initToken () {
+    initToken() {
       this.contracts.token = this.web3.eth.contract(TokenArtifact.abi);
       this.contracts.token.contractName = TokenArtifact.contractName;
       this.contracts.token.compiler = TokenArtifact.compiler;
