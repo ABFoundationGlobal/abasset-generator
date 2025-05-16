@@ -18,9 +18,9 @@
       <!--            </p>-->
       <p>
         Easily deploy Smart Contract for a Standard, Capped, Mintable, Burnable
-        NewAsset Token.
+        ABAsset Token.
       </p>
-      <p>轻松部署标准的、可增发和销毁、可以设置封顶额度的NewAsset通证</p>
+      <p>轻松部署标准的、可增发和销毁、可以设置封顶额度的ABAsset通证</p>
       <hr class="my-4" />
       <a
         class="btn btn-lg btn-outline-light"

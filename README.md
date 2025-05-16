@@ -1,18 +1,17 @@
 ---
 component: Home
-title: NewAsset Generator | Create your Token for FREE
+title: ABAsset Generator | Create your Token for FREE
 ---
 
-# NewAsset Generator - DAPP
+# ABAsset Generator - DAPP
 
-Easily deploy Smart Contract for a Standard, Capped, Mintable, Burnable NewAsset Token.
-
+Easily deploy Smart Contract for a Standard, Capped, Mintable, Burnable ABAsset Token.
 
 Code created using [VuePress](https://vuepress.vuejs.org/).
 
 ## Smart Contracts Source
- 
-Discover Smart Contracts source [here](https://github.com/newswap/newasset-generator).
+
+Discover Smart Contracts source [here](https://github.com/ABFoundationGlobal/abasset-generator).
 
 ## Install dependencies
 
@@ -40,4 +39,4 @@ npm run deploy
 
 ## License
 
-Code released under the [MIT License](https://github.com/newswap/newasset-generator/blob/master/LICENSE).
+Code released under the [MIT License](https://github.com/ABFoundationGlobal/abasset-generator/blob/master/LICENSE).

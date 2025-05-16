@@ -1,4 +1,4 @@
 ---
 component: Docs
-title: Documentation | NewAsset Generator
+title: Documentation | ABAsset Generator
 ---
