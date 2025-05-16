@@ -1,11 +1,9 @@
 <template>
   <b-navbar toggleable="md">
     <!-- <b-navbar-toggle target="nav_collapse"></b-navbar-toggle> -->
-    <b-container>
-      <a href="/" class="logo-box"
-        ><img src="../public/assets/images/logo.svg" alt=""
-      /></a>
-    </b-container>
+    <a href="/" class="logo-box"
+      ><img src="../public/assets/images/logo.svg" alt=""
+    /></a>
     <!-- <b-collapse is-nav id="nav_collapse"> -->
     <!--            <b-navbar-nav>-->
     <!--                <b-nav-item to="/docs.html">Docs</b-nav-item>-->
