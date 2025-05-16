@@ -20,5 +20,5 @@ module.exports = {
       },
     ],
   ],
-  defaultNetwork: 'NewChainTestNet',
+  defaultNetwork: 'ABCoreMainNet',
 };

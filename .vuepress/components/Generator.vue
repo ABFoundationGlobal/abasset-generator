@@ -209,7 +209,8 @@
                                                     </b-form-select>
                                                 </b-form-group>
 
-                                                <b-alert show variant="warning" v-if="currentNetwork !== 'NewChainMainNet'">
+                                                <!-- <b-alert show variant="warning" v-if="currentNetwork !== 'NewChainMainNet'"> -->
+                                                <b-alert show variant="warning" v-if="currentNetwork.toLowerCase().includes('testnet')">
                                                     <strong>
                                                         You selected a TEST Network. | 您选择了测试网。
                                                     </strong>
@@ -375,14 +376,19 @@
               );
               return;
             } else {
-              if (parseInt(this.metamask.netId) !== parseInt(this.network.current.id)) {
-                this.makeToast(
-                  'Warning',
-                  `Your NewMask in on the wrong network. Please switch on ${this.network.current.name} and try again! | 您的NewMask处于错误的网络，请切换到${this.network.current.name}并重试。`,
-                  'warning',
-                );
-                return;
-              }
+              await new Promise((resolve) => {
+                new Web3(window.ethereum || window.web3.currentProvider).version.getNetwork(async (err, netId) => {
+                  if (err) {
+                    console.log(err); // eslint-disable-line no-console
+                  }
+                  if (parseInt(netId) !== parseInt(this.network.current.id)) {
+                    await this.switchNetwork()
+                    await this.initWeb3(this.currentNetwork, true);
+                    this.initToken()
+                  }
+                  resolve()
+                });
+              })
             }
 
             const name = this.token.name;
@@ -415,8 +421,8 @@
                     from: this.web3.eth.coinbase,
                     data: this.contracts.token.bytecode,
                   }, (e, tokenContract) => {
+
                     if (e) {
-                      console.log(e); // eslint-disable-line no-console
                       this.makingTransaction = false;
                       this.formDisabled = false;
                       this.makeToast(
