@@ -23,7 +23,7 @@
       <p>轻松部署标准的、可增发和销毁、可以设置封顶额度的ABAsset通证</p>
       <hr class="my-4" />
       <a
-        class="btn btn-lg btn-outline-light"
+        class="btn btn-lg btn-outline-light btn-create"
         href="#token-generator"
         v-smooth-scroll="{ duration: 1000, offset: -50, updateHistory: false }"
       >
@@ -32,6 +32,7 @@
       <!--            <b-button to="/docs.html" size="lg" variant="light">-->
       <!--                Documentation-->
       <!--            </b-button>-->
+      <div class="banner-bg"></div>
     </b-jumbotron>
     <b-row>
       <b-col lg="10" offset-lg="1" class="mb-3 p-0">
