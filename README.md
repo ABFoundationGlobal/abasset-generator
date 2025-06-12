@@ -15,6 +15,8 @@ Discover Smart Contracts source [here](https://github.com/ABFoundationGlobal/aba
 
 ## Install dependencies
 
+use node v12
+
 ```bash
 npm install
 ```

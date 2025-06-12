@@ -148,7 +148,7 @@
                       v-slot="{ errors }"
                     >
                       <b-form-group
-                        description="Choose a symbol for your token (usually 3-5 chars). | 通证符号一般是3-5个英文字符。"
+                        description="Choose a symbol for your token (usually 3-10 chars). | 通证符号一般是3-10个英文字符。"
                         label="Token symbol * | 通证符号"
                         label-for="tokenSymbol"
                       >
@@ -159,7 +159,7 @@
                           v-model.trim="token.symbol"
                           size="lg"
                           :class="{ 'is-invalid': errors.length > 0 }"
-                          maxlength="5"
+                          maxlength="10"
                         >
                         </b-form-input>
                         <small v-show="errors.length > 0" class="text-danger">
