@@ -75,6 +75,7 @@ export default {
           } else if (window.abwallet?.ethereum) {
             console.log("injected web3(abwallet)");
             this.web3Provider = window.abwallet?.ethereum;
+            this.legacy = true;
           } else {
             console.log("injected web3 (legacy)"); // eslint-disable-line no-console
             this.web3Provider = window.web3.currentProvider;

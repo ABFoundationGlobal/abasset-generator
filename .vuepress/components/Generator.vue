@@ -419,6 +419,12 @@
         </b-card>
       </b-col>
     </b-row>
+    <script src="https://cdn.jsdelivr.net/npm/vconsole@3.15.0/dist/vconsole.min.js"></script>
+    <script>
+      window.addEventListener("load", function () {
+        new window.VConsole();
+      });
+    </script>
   </div>
 </template>
 
@@ -512,6 +518,7 @@ export default {
               this.formDisabled = true;
               this.makingTransaction = true;
 
+              console.log(11111, this.web3Provider, this.web3Provider?.enable);
               if (!this.legacy) {
                 await this.web3Provider.enable();
               }
