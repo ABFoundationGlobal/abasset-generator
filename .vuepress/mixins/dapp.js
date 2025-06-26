@@ -63,7 +63,7 @@ export default {
         );
       }
 
-      return new Promise((resolve) => {
+      return new Promise(async (resolve) => {
         if (
           checkWeb3 &&
           (typeof window.ethereum !== "undefined" ||
@@ -72,10 +72,6 @@ export default {
           if (window.ethereum) {
             console.log("injected web3"); // eslint-disable-line no-console
             this.web3Provider = window.ethereum;
-          } else if (window.abwallet?.ethereum) {
-            console.log("injected web3(abwallet)");
-            this.web3Provider = window.abwallet?.ethereum;
-            this.legacy = true;
           } else {
             console.log("injected web3 (legacy)"); // eslint-disable-line no-console
             this.web3Provider = window.web3.currentProvider;
@@ -84,17 +80,38 @@ export default {
 
           this.web3 = new Web3(this.web3Provider);
           this.metamask.installed = true;
-          this.web3.version.getNetwork(async (err, netId) => {
-            if (err) {
-              console.log(err); // eslint-disable-line no-console
-            }
-            this.metamask.netId = netId;
-            if (parseInt(netId) !== parseInt(this.network.list[network].id)) {
-              this.network.current = this.network.list[this.network.map[netId]];
-              await this.initWeb3(network, false);
-            }
-            resolve();
-          });
+          this.web3Provider
+            .request({ method: "eth_chainId" })
+            .then(async (chainIdHex) => {
+              const netId = parseInt(chainIdHex, 16);
+              console.log("当前链 ID:", netId);
+              this.metamask.netId = netId;
+              if (parseInt(netId) !== parseInt(this.network.list[network].id)) {
+                this.network.current =
+                  this.network.list[this.network.map[netId]];
+                await this.initWeb3(network, false);
+              }
+              resolve();
+            })
+            .catch((error) => {
+              console.error("获取链 ID 失败:", error);
+            });
+          // this.web3.version.getNetwork(async (err, netId) => {
+          //   if (err) {
+          //     console.log(
+          //       "this.web3.version.getNetwork error------",
+          //       err,
+          //       netId
+          //     ); // eslint-disable-line no-console
+          //   }
+          //   console.log("this.metamask.netId------", netId);
+          //   this.metamask.netId = netId;
+          //   if (parseInt(netId) !== parseInt(this.network.list[network].id)) {
+          //     this.network.current = this.network.list[this.network.map[netId]];
+          //     await this.initWeb3(network, false);
+          //   }
+          //   resolve();
+          // });
         } else {
           console.log("provided web3"); // eslint-disable-line no-console
           this.network.current = this.network.list[network];

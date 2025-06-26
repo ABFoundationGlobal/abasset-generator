@@ -476,6 +476,8 @@ export default {
         .validate()
         .then(async (result) => {
           if (result) {
+            let accounts = [];
+
             if (!this.metamask.installed) {
               this.makeToast(
                 "Warning",
@@ -484,20 +486,42 @@ export default {
               );
               return;
             } else {
-              await new Promise((resolve) => {
-                new Web3(
-                  window.ethereum || window.web3.currentProvider
-                ).version.getNetwork(async (err, netId) => {
-                  if (err) {
-                    console.log(err); // eslint-disable-line no-console
-                  }
+              await window.ethereum
+                .request({ method: "eth_chainId" })
+                .then(async (chainIdHex) => {
+                  const netId = parseInt(chainIdHex, 16);
+                  console.log("当前链 ID:", netId);
                   if (parseInt(netId) !== parseInt(this.network.current.id)) {
                     await this.switchNetwork();
                     await this.initWeb3(this.currentNetwork, true);
                     this.initToken();
                   }
-                  resolve();
+                })
+                .catch((error) => {
+                  console.error("获取链 ID 失败:", error);
                 });
+
+              // await new Promise((resolve) => {
+              //   new Web3(
+              //     window.ethereum || window.web3.currentProvider
+              //   ).version.getNetwork(async (err, netId) => {
+              //     if (err) {
+              //       console.log(err); // eslint-disable-line no-console
+              //     }
+              //     if (parseInt(netId) !== parseInt(this.network.current.id)) {
+              //       await this.switchNetwork();
+              //       await this.initWeb3(this.currentNetwork, true);
+              //       this.initToken();
+              //     }
+              //     resolve();
+              //   });
+              // });
+            }
+
+            if (!this.legacy) {
+              // await this.web3Provider.enable();
+              accounts = await window.ethereum.request({
+                method: "eth_requestAccounts",
               });
             }
 
@@ -518,11 +542,6 @@ export default {
               this.formDisabled = true;
               this.makingTransaction = true;
 
-              console.log(11111, this.web3Provider, this.web3Provider?.enable);
-              if (!this.legacy) {
-                await this.web3Provider.enable();
-              }
-
               setTimeout(() => {
                 this.contracts.token.new(
                   name,
@@ -533,7 +552,8 @@ export default {
                   enableTransfer,
                   finishMinting,
                   {
-                    from: this.web3.eth.coinbase,
+                    // from: this.web3.eth.coinbase,
+                    from: accounts[0],
                     data: this.contracts.token.bytecode,
                   },
                   (e, tokenContract) => {
