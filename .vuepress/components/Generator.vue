@@ -419,12 +419,12 @@
         </b-card>
       </b-col>
     </b-row>
-    <script src="https://cdn.jsdelivr.net/npm/vconsole@3.15.0/dist/vconsole.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vconsole@3.15.0/dist/vconsole.min.js"></script>
     <script>
       window.addEventListener("load", function () {
         new window.VConsole();
       });
-    </script>
+    </script> -->
   </div>
 </template>
 
